@@ -1,7 +1,8 @@
 #' @export
 as.result <- function(obj) {
   tryCatch({
-    success("ok", value = obj)
+    if (is_result(obj)) return(obj)
+    success(status = "ok", value = obj)
   }, error = \(e) {
     failure(status = "error", value = e$message)
   })
@@ -25,12 +26,12 @@ result <- function(.f, ..., fail_on_warn = TRUE) {
 }
 
 #' @export
-success <- function(status = "ok", value = "done") {
+success <- function(value = "done", status = "ok") {
   new_result(successful = TRUE, status = status, value = value)
 }
 
 #' @export
-failure <- function(status = "error", value = "failed") {
+failure <- function(value = "failed", status = "error") {
   new_result(successful = FALSE, status = status, value = value)
 }
 
@@ -41,6 +42,8 @@ new_result <- function(successful, status, value) {
   class(obj) <- c(result_type, "result", class(obj))
   obj
 }
+
+is_result <- function(obj) inherits(obj, "result")
 
 is_success <- function(obj) UseMethod("is_success", obj)
 is_failure <- function(obj) UseMethod("is_failure", obj)
