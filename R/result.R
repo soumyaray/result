@@ -1,10 +1,21 @@
 #' @export
-result <- function(.f, ...) {
+as.result <- function(obj) {
   tryCatch({
-    success("ok", value = .f(...))
+    success("ok", value = obj)
   }, error = \(e) {
     failure(status = "error", value = e$message)
   })
+}
+
+#' @export
+result <- function(.f, ...) {
+  \() {
+    tryCatch({
+      success("ok", value = .f(...))
+    }, error = \(e) {
+      failure(status = "error", value = e$message)
+    })
+  }
 }
 
 #' @export
@@ -30,8 +41,13 @@ is_failure <- function(obj) UseMethod("is_failure", obj)
 value <- function(obj) UseMethod("value", obj)
 status <- function(obj) UseMethod("status", obj)
 
+#' @export
 is_success.success <- function(obj) TRUE
+
+#' @export
 is_success.failure <- function(obj) FALSE
+
+#' @export
 is_failure.result <- function(obj) !is_success(obj)
 
 status.result <- function(obj) obj$status
