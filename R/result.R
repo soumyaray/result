@@ -8,12 +8,18 @@ as.result <- function(obj) {
 }
 
 #' @export
-result <- function(.f, ...) {
+result <- function(.f, ..., fail_on_warn = TRUE) {
   \() {
     tryCatch({
       success("ok", value = .f(...))
     }, error = \(e) {
       failure(status = "error", value = e$message)
+    }, warning = \(w) {
+      if (fail_on_warn) {
+        failure(status = "warn", value = w$message)
+      } else {
+        success("warn", value = w$message)
+      }
     })
   }
 }

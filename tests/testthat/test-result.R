@@ -26,6 +26,36 @@ test_that("HAPPY: result() takes function and its arguments", {
   expect_equal(value(fail_result), "This is my error message")
 })
 
+test_that("HAPPY: result() can fail_on_warn = TRUE", {
+  warn_fn <- \(msg) {
+    warning(msg)
+  }
+
+  safely_warn <- result(warn_fn, "This is my warning message",
+                        fail_on_warn = TRUE)
+  warn_result <- safely_warn()
+
+  # expect warn_result to be a failure class
+  expect_s3_class(warn_result, "failure")
+  expect_equal(status(warn_result), "warn")
+  expect_equal(value(warn_result), "This is my warning message")
+})
+
+test_that("HAPPY: result() can fail_on_warn = FALSE", {
+  warn_fn <- \(msg) {
+    warning(msg)
+  }
+
+  safely_warn <- result(warn_fn, "This is my warning message",
+                        fail_on_warn = FALSE)
+  warn_result <- safely_warn()
+
+  # expect warn_result to be a failure class
+  expect_s3_class(warn_result, "success")
+  expect_equal(status(warn_result), "warn")
+  expect_equal(value(warn_result), "This is my warning message")
+})
+
 test_that("HAPPY: as.resuilt() captures failure from an error-prone block", {
   fail_result <- as.result(stop("This is my error message"))
 
