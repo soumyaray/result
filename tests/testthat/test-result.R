@@ -17,8 +17,8 @@ test_that("HAPPY: result() takes function and its arguments", {
     stop(msg)
   }
 
-  safely_fail <- result(fail_fn, "This is my error message")
-  fail_result <- safely_fail()
+  safely_fail <- result(fail_fn)
+  fail_result <- safely_fail("This is my error message")
 
   # expect fail_result to be a failure class
   expect_s3_class(fail_result, "failure")
@@ -31,9 +31,8 @@ test_that("HAPPY: result() can fail_on_warning = TRUE", {
     warning(msg)
   }
 
-  safely_warn <- result(warn_fn, "This is my warning message",
-                        fail_on_warning = TRUE)
-  warn_result <- safely_warn()
+  safely_warn <- result(warn_fn, fail_on_warning = TRUE)
+  warn_result <- safely_warn("This is my warning message")
 
   # expect warn_result to be a failure class
   expect_s3_class(warn_result, "failure")
@@ -46,9 +45,8 @@ test_that("HAPPY: result() can fail_on_warning = FALSE", {
     warning(msg)
   }
 
-  safely_warn <- result(warn_fn, "This is my warning message",
-                        fail_on_warning = FALSE)
-  warn_result <- safely_warn()
+  safely_warn <- result(warn_fn, fail_on_warning = FALSE)
+  warn_result <- safely_warn("This is my warning message")
 
   # expect warn_result to be a failure class
   expect_s3_class(warn_result, "success")
