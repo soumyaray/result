@@ -59,7 +59,7 @@ as_result <- function(.expr, detect_warning = TRUE, fail_on_warning = TRUE) {
 #' safe to be examined. The function will not be evaluated until the monad is
 #' explicitly called.
 #'
-#' @param .f function to wrap
+#' @param .fn function to wrap
 #' @param detect_warning logical, whether to detect warnings; note \code{result}
 #'  cannot capture the outcome value if it catches warnings, so use
 #'  \code{detect_warning = TRUE } only if you want to capture the warning
@@ -77,10 +77,10 @@ as_result <- function(.expr, detect_warning = TRUE, fail_on_warning = TRUE) {
 #' safely_calculate <- result(calculate)
 #' safely_calculate(1, 2) |> value()
 #' @export
-result <- function(.f, detect_warning = TRUE, fail_on_warning = TRUE) {
-  \(...) {
+result <- function(.fn, detect_warning = TRUE, fail_on_warning = TRUE) {
+  monad <- \(...) {
     expr <- \() {
-      success("ok", value = .f(...))
+      success("ok", value = .fn(...))
     }
 
     error <- \(e) {
@@ -101,6 +101,8 @@ result <- function(.f, detect_warning = TRUE, fail_on_warning = TRUE) {
       tryCatch(expr = expr(), error = error)
     }
   }
+  class(monad) <- c("monad", "result", class(monad))
+  monad
 }
 
 #' Wraps a value in \code{success} type of \code{result}
