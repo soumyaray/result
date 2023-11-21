@@ -1,12 +1,14 @@
 Package: result
-Title: Result Monad for Operations that can Fail
+Title: Result Type for Operations that can Succeed or Fail
 Version: 0.0.0.9000
 Authors@R: 
     person("Soumya", "Ray", , "soumya.ray@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-7497-3281"))
-Description: Provides Either/Result monad functions like Success() and Failure() 
-    to capture the result of operations that can succeed of fail. Results can be
-    bound together in chains of operations.
+Description: Allows wrapping values in `success()` and `failure()` types to capture 
+    the result of operations, along with any status codes. Risky expressions can be 
+    wrapped in `as_result()` and functions wrapped in `result()` to catch errors
+    and assign the relevant result types. Monadic result objects can be bound together 
+    in chains to gracefully handle errors in pipelines or transaction scripts.
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
