@@ -1,8 +1,6 @@
 #' @export
-bind <- function(result1, f2) {
-  if (is_success(result1)) {
-    f2(value(result1))
-  } else {
-    result1
-  }
+bind <- function(last_result, next_result, ...) {
+  if (is_success(last_result))
+    next_result(value(last_result), ...) |> as_result()
+  else last_result
 }
