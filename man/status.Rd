@@ -16,5 +16,5 @@ status of the \code{result}
 Extracts the status of a \code{result}
 }
 \examples{
-status(success(42))
+status(success("datafile.md", status = "created"))
 }

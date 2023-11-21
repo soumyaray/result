@@ -128,6 +128,12 @@ if (is_success(process)) {
 
 ## Installation
 
+You can install the released version of result from CRAN:
+
+``` r
+install.packages("result")
+```
+
 You can install the development version of result from
 [GitHub](https://github.com/soumyaray/result) with:
 
