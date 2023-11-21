@@ -60,7 +60,6 @@ as_result <- function(.expr, detect_warning = TRUE, fail_on_warning = TRUE) {
 #' explicitly called.
 #'
 #' @param .f function to wrap
-#' @param ... arguments to pass to \code{.f}
 #' @param detect_warning logical, whether to detect warnings; note \code{result}
 #'  cannot capture the outcome value if it catches warnings, so use
 #'  \code{detect_warning = TRUE } only if you want to capture the warning
@@ -78,24 +77,24 @@ as_result <- function(.expr, detect_warning = TRUE, fail_on_warning = TRUE) {
 #' safely_calculate <- result(calculate)
 #' safely_calculate(1, 2) |> value()
 #' @export
-result <- function(.f, ..., detect_warning = TRUE, fail_on_warning = TRUE) {
-  expr <- \() {
-    success("ok", value = .f(...))
-  }
-
-  error <- \(e) {
-    failure(status = "error", value = e$message)
-  }
-
-  warning <- \(w) {
-    if (fail_on_warning) {
-      failure(status = "warn", value = w$message)
-    } else {
-      success("warn", value = w$message)
+result <- function(.f, detect_warning = TRUE, fail_on_warning = TRUE) {
+  \(...) {
+    expr <- \() {
+      success("ok", value = .f(...))
     }
-  }
 
-  \() {
+    error <- \(e) {
+      failure(status = "error", value = e$message)
+    }
+
+    warning <- \(w) {
+      if (fail_on_warning) {
+        failure(status = "warn", value = w$message)
+      } else {
+        success("warn", value = w$message)
+      }
+    }
+
     if (detect_warning) {
       tryCatch(expr = expr(), error = error, warning = warning)
     } else {

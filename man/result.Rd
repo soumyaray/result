@@ -4,12 +4,10 @@
 \alias{result}
 \title{Wraps a function in an \code{result} monad for later evaluation.}
 \usage{
-result(.f, ..., detect_warning = TRUE, fail_on_warning = TRUE)
+result(.f, detect_warning = TRUE, fail_on_warning = TRUE)
 }
 \arguments{
 \item{.f}{function to wrap}
-
-\item{...}{arguments to pass to \code{.f}}
 
 \item{detect_warning}{logical, whether to detect warnings; note \code{result}
 cannot capture the outcome value if it catches warnings, so use
