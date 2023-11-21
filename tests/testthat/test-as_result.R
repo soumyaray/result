@@ -1,6 +1,6 @@
 
-test_that("HAPPY: as.result() captures failure from an error-prone block", {
-  fail_result <- as.result(stop("This is my error message"))
+test_that("HAPPY: as_result() captures failure from an error-prone block", {
+  fail_result <- as_result(stop("This is my error message"))
 
   # expect fail_result to be a failure class
   expect_s3_class(fail_result, "failure")
@@ -8,17 +8,17 @@ test_that("HAPPY: as.result() captures failure from an error-prone block", {
   expect_equal(value(fail_result), "This is my error message")
 })
 
-test_that("HAPPY: as.result(obj) returns same obj if it is already a result", {
+test_that("HAPPY: as_result(obj) returns same obj if it is already a result", {
   res <- success(42)
-  res2 <- as.result(res)
+  res2 <- as_result(res)
 
   expect_s3_class(res2, "success")
   expect_equal(status(res2), "ok")
   expect_equal(value(res2), res$value)
 })
 
-test_that("HAPPY: as.result() can detect warnings as success", {
-  warn_result <- as.result(
+test_that("HAPPY: as_result() can detect warnings as success", {
+  warn_result <- as_result(
     {
       warning("This is my warning message")
       42
@@ -32,8 +32,8 @@ test_that("HAPPY: as.result() can detect warnings as success", {
   expect_equal(value(warn_result), "This is my warning message")
 })
 
-test_that("HAPPY: as.result() can detect warnings as failure", {
-  warn_result <- as.result(
+test_that("HAPPY: as_result() can detect warnings as failure", {
+  warn_result <- as_result(
     {
       warning("This is my warning message")
       42

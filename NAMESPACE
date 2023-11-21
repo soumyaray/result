@@ -3,7 +3,7 @@
 S3method(is_failure,result)
 S3method(is_success,failure)
 S3method(is_success,success)
-export(as.result)
+export(as_result)
 export(failure)
 export(new_result)
 export(result)

@@ -1,5 +1,5 @@
 #' @export
-as.result <- function(obj, detect_warning = TRUE, fail_on_warning = TRUE) {
+as_result <- function(obj, detect_warning = TRUE, fail_on_warning = TRUE) {
   expr <- \() {
     if (is_result(obj)) return(obj)
     success(status = "ok", value = obj)
