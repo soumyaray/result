@@ -1,27 +1,53 @@
 #' @export
-as.result <- function(obj) {
-  tryCatch({
+as.result <- function(obj, detect_warning = TRUE, fail_on_warning = TRUE) {
+  expr <- \() {
     if (is_result(obj)) return(obj)
     success(status = "ok", value = obj)
-  }, error = \(e) {
+  }
+
+  error <- \(e) {
     failure(status = "error", value = e$message)
-  })
+  }
+
+  warning <- \(w) {
+    if (fail_on_warning) {
+      failure(status = "warn", value = w$message)
+    } else {
+      success("warn", value = w$message)
+    }
+  }
+
+  if (detect_warning) {
+    tryCatch(expr = expr(), error = error, warning = warning)
+  } else {
+    tryCatch(expr = expr(), error = error)
+  }
 }
 
 #' @export
-result <- function(.f, ..., fail_on_warn = TRUE) {
+result <- function(.f, ..., detect_warning = TRUE, fail_on_warning = TRUE) {
+  expr <- \() {
+    success("ok", value = .f(...))
+  }
+
+  error <- \(e) {
+    failure(status = "error", value = e$message)
+  }
+
+  warning <- \(w) {
+    if (fail_on_warning) {
+      failure(status = "warn", value = w$message)
+    } else {
+      success("warn", value = w$message)
+    }
+  }
+
   \() {
-    tryCatch({
-      success("ok", value = .f(...))
-    }, error = \(e) {
-      failure(status = "error", value = e$message)
-    }, warning = \(w) {
-      if (fail_on_warn) {
-        failure(status = "warn", value = w$message)
-      } else {
-        success("warn", value = w$message)
-      }
-    })
+    if (detect_warning) {
+      tryCatch(expr = expr(), error = error, warning = warning)
+    } else {
+      tryCatch(expr = expr(), error = error)
+    }
   }
 }
 
