@@ -72,7 +72,7 @@ safely_call_api(good = FALSE) |> is_failure()
 #> [1] TRUE
 ```
 
-### Pipelines
+### `then_try()` - Pipelines
 
 We can chain together functions to create a pipeline that will either
 complete successfully or else stop gracefully at the first sign of
@@ -125,6 +125,32 @@ if (is_success(process)) {
 }
 #> Could not process: Result has become too big
 ```
+
+### `or_try()` - Looking for a working strategy
+
+We can also chain together functions to create a pipeline that will try
+each operation in turn until one succeeds, or else stop gracefully if
+all fail.
+
+``` r
+read_from_file <- function(good = TRUE) {
+  if (good) 43
+  else stop("File not found")
+}
+
+read_strategy <-
+  safely_call_api(good = FALSE) |>
+  or_try(read_from_file, good = TRUE) |>
+  or_try(success(45))
+
+is_success(read_strategy)  # TRUE
+#> [1] TRUE
+value(read_strategy)       # 43 - from reade_from_file()
+#> [1] 43
+```
+
+Here, the pipeline stops at the second step, and the result is a
+`success` object returned by safely evaluating `read_from_file()`.
 
 ## Installation
 

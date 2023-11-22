@@ -133,6 +133,11 @@ failure <- function(value = "failed", status = "error") {
   new_result(successful = FALSE, status = status, value = value)
 }
 
+#' @export
+print.result <- function(x, ...) {
+  print(paste0(status(x), ": ", value(x)))
+}
+
 new_result <- function(successful, status, value) {
   result_type <- ifelse(successful, "success", "failure")
   obj <- list(status = status, value = value)
