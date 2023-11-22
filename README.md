@@ -5,6 +5,8 @@
 # result
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/soumyaray/result/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/soumyaray/result/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `result` type captures expressions and functions that might cause
@@ -125,6 +127,12 @@ if (is_success(process)) {
 ```
 
 ## Installation
+
+You can install the released version of result from CRAN:
+
+``` r
+install.packages("result")
+```
 
 You can install the development version of result from
 [GitHub](https://github.com/soumyaray/result) with:

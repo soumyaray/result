@@ -12,7 +12,7 @@ value <- function(obj) UseMethod("value", obj)
 #' @param obj \code{result} object
 #' @return status of the \code{result}
 #' @examples
-#' status(success(42))
+#' status(success("datafile.md", status = "created"))
 #' @export
 status <- function(obj) UseMethod("status", obj)
 

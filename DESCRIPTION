@@ -1,14 +1,15 @@
 Package: result
-Title: Result Type for Operations that can Succeed or Fail
-Version: 0.0.0.9000
+Title: Result Type for Safely Handling Operations that can Succeed or Fail
+Version: 0.1.0
 Authors@R: 
     person("Soumya", "Ray", , "soumya.ray@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-7497-3281"))
-Description: Allows wrapping values in `success()` and `failure()` types to capture 
+Description: Allows wrapping values in success() and failure() types to capture 
     the result of operations, along with any status codes. Risky expressions can be 
-    wrapped in `as_result()` and functions wrapped in `result()` to catch errors
-    and assign the relevant result types. Monadic result objects can be bound together 
-    in chains to gracefully handle errors in pipelines or transaction scripts.
+    wrapped in as_result() and functions wrapped in result() to catch errors
+    and assign the relevant result types. Monadic functions can be bound together 
+    as pipelines or transaction scripts using then_try(), to gracefully handle 
+    errors at any step.
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
@@ -16,3 +17,5 @@ License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+URL: https://github.com/soumyaray/result
+BugReports: https://github.com/soumyaray/result/issues

@@ -2,3 +2,6 @@
 ^result\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^\.github$
+^cran-comments\.md$
+^CRAN-SUBMISSION$
