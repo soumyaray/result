@@ -1,6 +1,6 @@
 Package: result
 Title: Result Type for Safely Handling Operations that can Succeed or Fail
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: 
     person("Soumya", "Ray", , "soumya.ray@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-7497-3281"))
