@@ -26,9 +26,21 @@ and less error-prone by abstracting away the need for nested `if` statements and
 composable pipeline of functions that will either end with a `success` object, 
 or stop gracefully with a `failure` object as soon as an error is detected.
 
-## Example
+## Contents
 
-### Safe functions
+- [Functions and Examples](#functions-and-examples)
+  - [`success()` and `failure()` - Returning safe results](#success-and-failure---returning-safe-results)
+  - [`as_result()` - Wrapping results](#as_result---wrapping-results)
+  - [`result()` - Lazy wrapping of results](#result---lazy-wrapping-of-results)
+  - [`then_try()` - Pipelines](#then_try---pipelines)
+  - [`or_try()` - Looking for a working strategy](#or_try---looking-for-a-working-strategy)
+- [Installation](#installation)
+- [Why not Either or Maybe?](#why-not-either-or-maybe)
+- [Acknowledgements](#acknowledgements)
+
+## Functions and Examples
+
+### `success()` and `failure()` - Returning safe results
 
 Make your own functions fault-tolerant by wrapping your results in `success` 
 or `failure` for downstream users to safely use:
@@ -55,7 +67,7 @@ if (is_failure(risky_result)) {
 ```
 
 
-### Smart Results
+### `as_result()` - Wrapping results
 
 If you are using others' functions, wrap their results safely for immediate
 inspection, or wrap the whole function for safe use later:
@@ -67,12 +79,18 @@ external_api <- function(good = TRUE) {
   else stop("Cannot connect to API")
 }
 
-# We can either safely inspect the results:
+# We can safely inspect the results:
 api_result <- as_result(external_api(good = TRUE))
 is_success(api_result)
 value(api_result)
+```
 
-# Or we can wrap the risky function for safe use later!
+### `result()` - Lazy wrapping of results
+
+You can also wrap a whole function for safe use later:
+
+``` {r, eval = TRUE}
+# We can wrap the risky function for safe use later!
 safely_call_api <- result(external_api)
 safely_call_api(good = FALSE) |> is_failure()
 ```
@@ -133,17 +151,17 @@ operation in turn until one succeeds, or else stop gracefully if all fail.
 
 ``` {r, eval = TRUE}
 read_from_file <- function(good = TRUE) {
-  if (good) 43
+  if (good) 99
   else stop("File not found")
 }
 
 read_strategy <-
   safely_call_api(good = FALSE) |>
   or_try(read_from_file, good = TRUE) |>
-  or_try(success(45))
+  or_try(success(1))
 
-is_success(read_strategy)  # TRUE
-value(read_strategy)       # 43 - from reade_from_file()
+is_success(read_strategy)
+value(read_strategy)
 ```
 
 Here, the pipeline stops at the second step, and the result is a `success` object
@@ -184,3 +202,9 @@ resolve to `success` and `failure` respectively, which should be intuitive to
 many developers. Implementations of `Result` in other languages (such as Rust)
 sometimes use `ok` and `error` (or `err`), but these can conflict with 
 variable names and keywords in other languages.
+
+## Acknowledgements
+
+This package follows the convention of the `Either` type in Haskell and the `Result` type in Rust.
+The language of success/failure comes from the [`dry-monads`](https://dry-rb.org/gems/dry-monads) Ruby gem.
+The R functionality and conventions of the package tries to closely mirror the [`maybe`](https://github.com/armcn/maybe) R package.

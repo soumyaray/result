@@ -1,5 +1,14 @@
 # result (development version)
 
+## Documentation
+
+* Table of contents in README
+
+## New Features
+
+* Binding Functions
+  * or_try()
+
 # result 0.1.0
 
 * Initial CRAN submission.
@@ -11,8 +20,8 @@
   * failure()
   * as_result()
   * result()
-* Pipline/Binding Functions
-  * bind() aliased to try_then()
+* Binding Functions
+  * bind() aliased to then_try()
 * Attribute functions
   * value()
   * status()
