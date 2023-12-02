@@ -101,7 +101,7 @@ result <- function(.fn, detect_warning = TRUE, fail_on_warning = TRUE) {
       tryCatch(expr = expr(), error = error)
     }
   }
-  class(monad) <- c("monad", "result", class(monad))
+  class(monad) <- c("monad.result", class(monad))
   monad
 }
 
@@ -131,6 +131,11 @@ success <- function(value = "done", status = "ok") {
 #' @export
 failure <- function(value = "failed", status = "error") {
   new_result(successful = FALSE, status = status, value = value)
+}
+
+#' @export
+print.result.monad <- function(x, ...) {
+  print("result monad")
 }
 
 #' @export

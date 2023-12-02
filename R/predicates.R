@@ -43,3 +43,12 @@ is_success.failure <- function(obj) FALSE
 #' @method is_failure result
 #' @export
 is_failure.result <- function(obj) !is_success(obj)
+
+# Internal predicates
+
+#' @export
+is_result_monad <- function(obj) UseMethod("is_result_monad", obj)
+#' @export
+is_result_monad.default <- function(obj) FALSE
+#' @export
+is_result_monad.monad.result <- function(obj) TRUE
