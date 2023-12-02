@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # result
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/result)](https://CRAN.R-project.org/package=result)
 [![R-CMD-check](https://github.com/soumyaray/result/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/soumyaray/result/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
