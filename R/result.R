@@ -134,7 +134,7 @@ failure <- function(value = "failed", status = "error") {
 }
 
 #' @export
-print.result.monad <- function(x, ...) {
+print.monad.result <- function(x, ...) {
   print("result monad")
 }
 
